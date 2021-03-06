@@ -24,15 +24,14 @@ services:
        - default
      labels:
        - "traefik.enable=true"
-       - "traefik.http.routers.${CLIENT_ID}-wordpress.entrypoints=http"
-       - "traefik.http.routers.${CLIENT_ID}-wordpress.rule=Host(`${CLIENT_ID}-wordpress.mercatum.fr`)"
-       - "traefik.http.middlewares.${CLIENT_ID}-wordpress-https-redirect.redirectscheme.scheme=https"
-       - "traefik.http.routers.${CLIENT_ID}-wordpress.middlewares=${CLIENT_ID}-wordpress-https-redirect"
-       - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.entrypoints=https"
-       - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.rule=Host(`${CLIENT_ID}-wordpress.mercatum.fr`)"
-       - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.tls=true"
-       - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.tls.certresolver=http"
-       - "traefik.http.services.${CLIENT_ID}-wordpress.loadbalancer.server.port=80"
+       - "traefik.http.routers.wordpress.entrypoints=http"
+       - "traefik.http.routers.wordpress.rule=Host(`wordpress.mercatum.fr`)"
+       - "traefik.http.middlewares.wordpress-https-redirect.redirectscheme.scheme=https"
+       - "traefik.http.routers.wordpress.middlewares=wordpress-https-redirect"
+       - "traefik.http.routers.wordpress-secure.entrypoints=https"
+       - "traefik.http.routers.wordpress-secure.rule=Host(`wordpress.mercatum.fr`)"
+       - "traefik.http.routers.wordpress-secure.tls=true"
+       - "traefik.http.routers.wordpress-secure.tls.certresolver=http"
        - "traefik.docker.network=proxy"
 
 volumes:
