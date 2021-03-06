@@ -21,7 +21,6 @@ services:
        WORDPRESS_DB_PASSWORD: wordpress
      networks:
        - proxy
-       - default
      labels:
        - "traefik.enable=true"
        - "traefik.http.routers.${CLIENT_ID}-wordpress.entrypoints=http"
