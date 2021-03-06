@@ -1,26 +1,41 @@
 version: '2'
 
 services:
-   db:
+   ${CLIENT_ID}-db:
      image: mysql:5.7
      volumes:
-       - db_data:/var/lib/mysql
+       - ${CLIENT_ID}-db_data:/var/lib/mysql
      restart: always
      environment:
-       MYSQL_ROOT_PASSWORD: ${MYSQL_DATABASE_PASSWORD}
+       MYSQL_ROOT_PASSWORD: ${CLIENT_ID}
        MYSQL_DATABASE: wordpress
        MYSQL_USER: wordpress
        MYSQL_PASSWORD: wordpress
 
-   wordpress:
+   ${CLIENT_ID}-wordpress:
      image: wordpress:latest
-     ports:
-       - 80
      restart: always
      environment:
-       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_HOST: ${CLIENT_ID}-db:3306
        WORDPRESS_DB_USER: wordpress
        WORDPRESS_DB_PASSWORD: wordpress
+     networks:
+       - proxy
+       - default
+     labels:
+       - "traefik.enable=true"
+       - "traefik.http.routers.${CLIENT_ID}-wordpress.entrypoints=http"
+       - "traefik.http.routers.${CLIENT_ID}-wordpress.rule=Host(`${CLIENT_ID}-wordpress.mercatum.fr`)"
+       - "traefik.http.middlewares.${CLIENT_ID}-wordpress-https-redirect.redirectscheme.scheme=https"
+       - "traefik.http.routers.${CLIENT_ID}-wordpress.middlewares=${CLIENT_ID}-wordpress-https-redirect"
+       - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.entrypoints=https"
+       - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.rule=Host(`${CLIENT_ID}-wordpress.mercatum.fr`)"
+       - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.tls=true"
+       - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.tls.certresolver=http"
 
 volumes:
-    db_data:
+    ${CLIENT_ID}-db_data:
+
+networks:
+  proxy:
+    external: true
