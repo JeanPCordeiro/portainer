@@ -21,6 +21,7 @@ services:
        WORDPRESS_DB_PASSWORD: wordpress
      networks:
        - proxy
+       - default
      labels:
        - "traefik.enable=true"
        - "traefik.http.routers.${CLIENT_ID}-wordpress.entrypoints=http"
@@ -31,6 +32,7 @@ services:
        - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.rule=Host(`${CLIENT_ID}-wordpress.mercatum.fr`)"
        - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.tls=true"
        - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.tls.certresolver=http"
+       - "traefik.docker.network=proxy"
 
 volumes:
     db_data:
