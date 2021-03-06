@@ -3,7 +3,7 @@
 	"templates": [
 		{
 			"type": 3,
-			"title": "Wordpress Clien Site",
+			"title": "Wordpress Client Site",
 			"description": "Wordpress setup with a MySQL database",
 			"note": "Deploys a Wordpress instance connected to a MySQL database.",
 			"categories": [
