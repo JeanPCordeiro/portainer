@@ -1,10 +1,10 @@
 version: '2'
 
 services:
-   ${CLIENT_ID}-db:
+   db:
      image: mysql:5.7
      volumes:
-       - ${CLIENT_ID}-db_data:/var/lib/mysql
+       -db_data:/var/lib/mysql
      restart: always
      environment:
        MYSQL_ROOT_PASSWORD: ${CLIENT_ID}
@@ -12,11 +12,11 @@ services:
        MYSQL_USER: wordpress
        MYSQL_PASSWORD: wordpress
 
-   ${CLIENT_ID}-wordpress:
+   wordpress:
      image: wordpress:latest
      restart: always
      environment:
-       WORDPRESS_DB_HOST: ${CLIENT_ID}-db:3306
+       WORDPRESS_DB_HOST: db:3306
        WORDPRESS_DB_USER: wordpress
        WORDPRESS_DB_PASSWORD: wordpress
      networks:
@@ -34,7 +34,7 @@ services:
        - "traefik.http.routers.${CLIENT_ID}-wordpress-secure.tls.certresolver=http"
 
 volumes:
-    ${CLIENT_ID}-db_data:
+    db_data:
 
 networks:
   proxy:
