@@ -2,18 +2,18 @@
 	"version": "2",
 	"templates": [
 		{
-			"type": 3,
-			"title": "Wordpress Client Site",
-			"description": "Wordpress setup with a MySQL database",
-			"note": "Deploys a Wordpress instance connected to a MySQL database.",
+			"type": 2,
+			"title": "Client full stack",
+			"description": "Setup a Client full stack offers",
+			"note": "Deploys DB, WP, PHP, etc",
 			"categories": [
-				"CMS"
+				"Clients"
 			],
 			"platform": "linux",
 			"logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/wordpress.png",
 			"repository": {
 				"url": "https://github.com/JeanPCordeiro/portainer",
-				"stackfile": "stacks/wordpress/docker-compose.yml"
+				"stackfile": "stacks/clientfull/docker-compose.yml"
 			},
 			"env": [
 				{
