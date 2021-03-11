@@ -13,7 +13,7 @@
 			"logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/wordpress.png",
 			"repository": {
 				"url": "https://github.com/JeanPCordeiro/portainer",
-				"stackfile": "stacks/clientfull/docker-compose.yml"
+				"stackfile": "stacks/clientfull/docker-stack.yml"
 			},
 			"env": [
 				{
