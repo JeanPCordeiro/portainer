@@ -10,14 +10,14 @@
 				"Clients"
 			],
 			"platform": "linux",
-			"logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/wordpress.png",
+			"logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/caddy.png",
 			"repository": {
 				"url": "https://github.com/JeanPCordeiro/portainer",
 				"stackfile": "stacks/clientfull/docker-stack.yml"
 			},
 			"env": [
 				{
-				"name": "DOMAINN",
+				"name": "DOMAIN",
 				"label": "Domain",
 				"description": "DNS Domain"
 				},				
