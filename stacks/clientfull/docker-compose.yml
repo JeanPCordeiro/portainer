@@ -1,0 +1,223 @@
+version: "3.8"
+
+networks:
+  internal:
+    driver: overlay
+    attachable: true
+  traefik-public:
+    external: true
+
+volumes:
+    db_data: {}
+    wp_data: {}
+    php_data: {}
+    s3_data: {}
+
+services:
+
+  db:
+    image: mariadb:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 10
+        window: 15s
+    environment:
+        MYSQL_DATABASE: wordpress
+        MYSQL_USER: ${CLIENT_ID}
+        MYSQL_PASSWORD: ${CLIENT_ID}
+        MYSQL_ROOT_PASSWORD: ${CLIENT_ID}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - internal
+ 
+  wp:
+    image: wordpress:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 10
+        window: 15s
+      labels:
+        - "traefik.enable=true"
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.${CLIENT_ID}-wp-http.rule=Host(`${WP_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-wp-http.entrypoints=http
+        - traefik.http.routers.${CLIENT_ID}-wp-http.middlewares=https-redirect
+        - traefik.http.routers.${CLIENT_ID}-wp-https.rule=Host(`${WP_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-wp-https.entrypoints=https
+        - traefik.http.routers.${CLIENT_ID}-wp-https.tls=true
+        - traefik.http.routers.${CLIENT_ID}-wp-https.tls.certresolver=le
+        - traefik.http.services.${CLIENT_ID}-wp.loadbalancer.server.port=80
+    environment:
+        WORDPRESS_DB_HOST: db
+        WORDPRESS_DB_USER: ${CLIENT_ID}
+        WORDPRESS_DB_PASSWORD: ${CLIENT_ID}
+        WORDPRESS_DB_NAME: wordpress
+        WORDPRESS_TABLE_PREFIX: wp_
+    depends_on:
+      - db
+    volumes:
+      - wp_data:/var/www/html
+    networks:
+      - internal
+      - traefik-public 
+      
+  php:
+    image: php:apache
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 10
+        window: 15s
+      labels:
+        - "traefik.enable=true"
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.${CLIENT_ID}-php-http.rule=Host(`${PHP_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-php-http.entrypoints=http
+        - traefik.http.routers.${CLIENT_ID}-php-http.middlewares=https-redirect
+        - traefik.http.routers.${CLIENT_ID}-php-https.rule=Host(`${PHP_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-php-https.entrypoints=https
+        - traefik.http.routers.${CLIENT_ID}-php-https.tls=true
+        - traefik.http.routers.${CLIENT_ID}-php-https.tls.certresolver=le
+        - traefik.http.services.${CLIENT_ID}-php.loadbalancer.server.port=80
+    environment:
+        DB_HOST: db
+        DB_USER: ${CLIENT_ID}
+        DB_PASSWORD: ${CLIENT_ID}
+    depends_on:
+      - db
+    volumes:
+      - php_data:/var/www/html
+    networks:
+      - internal
+      - traefik-public
+      
+  fb:
+    image: filebrowser/filebrowser
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 10
+        window: 15s
+      labels:
+        - "traefik.enable=true"
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.${CLIENT_ID}-fb-http.rule=Host(`${FB_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-fb-http.entrypoints=http
+        - traefik.http.routers.${CLIENT_ID}-fb-http.middlewares=https-redirect
+        - traefik.http.routers.${CLIENT_ID}-fb-https.rule=Host(`${FB_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-fb-https.entrypoints=https
+        - traefik.http.routers.${CLIENT_ID}-fb-https.tls=true
+        - traefik.http.routers.${CLIENT_ID}-fb-https.tls.certresolver=le
+        - traefik.http.services.${CLIENT_ID}-fb.loadbalancer.server.port=80
+    depends_on:
+      - php
+    volumes:
+      - php_data:/srv
+    networks:
+      - internal
+      - traefik-public
+      
+  vscode:
+    image: ghcr.io/linuxserver/code-server
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 10
+        window: 15s
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.${CLIENT_ID}-vscode-http.rule=Host(`${VS_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-vscode-http.entrypoints=http
+        - traefik.http.routers.${CLIENT_ID}-vscode-http.middlewares=https-redirect
+        - traefik.http.routers.${CLIENT_ID}-vscode-https.rule=Host(`${VS_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-vscode-https.entrypoints=https
+        - traefik.http.routers.${CLIENT_ID}-vscode-https.tls=true
+        - traefik.http.routers.${CLIENT_ID}-vscode-https.tls.certresolver=le
+        - traefik.http.services.${CLIENT_ID}-vscode.loadbalancer.server.port=8443   
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - HASHED_PASSWORD=dedafc68da3f3de7cefefa59820db80a235d15636ee294d3903498cc01b9b035
+    volumes:
+      - php_data:/config/workspace      
+    networks:
+      - traefik-public
+
+  adminer:
+    image: adminer:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 10s
+        max_attempts: 10
+        window: 15s
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.${CLIENT_ID}-adminer-http.rule=Host(`${AD_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-adminer-http.entrypoints=http
+        - traefik.http.routers.${CLIENT_ID}-adminer-http.middlewares=https-redirect
+        - traefik.http.routers.${CLIENT_ID}-adminer-https.rule=Host(`${AD_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-adminer-https.entrypoints=https
+        - traefik.http.routers.${CLIENT_ID}-adminer-https.tls=true
+        - traefik.http.routers.${CLIENT_ID}-adminer-https.tls.certresolver=le
+        - traefik.http.services.${CLIENT_ID}-adminer.loadbalancer.server.port=8080   
+    environment:
+      - ADMINER_DESIGN='nette'
+      - ADMINER_DEFAULT_SERVER="db"
+    depends_on:
+      - db
+    volumes:
+      - php_data:/config/workspace      
+    networks:
+      - internal
+      - traefik-public
+      
+  s3:
+    image: minio/minio:latest
+    volumes:
+      - s3_data:/data
+    networks:
+      - traefik-public
+      - internal
+    deploy:
+      restart_policy:
+        delay: 10s
+        max_attempts: 10
+        window: 60s
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=traefik-public
+        - traefik.constraint-label=traefik-public
+        - traefik.http.routers.${CLIENT_ID}-s3-http.rule=Host(`${S3_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-s3-http.entrypoints=http
+        - traefik.http.routers.${CLIENT_ID}-s3-http.middlewares=https-redirect
+        - traefik.http.routers.${CLIENT_ID}-s3-https.rule=Host(`${S3_ID}.${CLIENT_ID}.${DOMAIN?Variable not set}`)
+        - traefik.http.routers.${CLIENT_ID}-s3-https.entrypoints=https
+        - traefik.http.routers.${CLIENT_ID}-s3-https.tls=true
+        - traefik.http.routers.${CLIENT_ID}-s3-https.tls.certresolver=le
+        - traefik.http.services.${CLIENT_ID}-s3.loadbalancer.server.port=9000          
+    command: "server /data"
+    environment:
+      - MINIO_ACCESS_KEY=${CLIENT_ID}
+      - MINIO_SECRET_KEY=${CLIENT_ID}${CLIENT_ID}
