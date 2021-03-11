@@ -10,7 +10,7 @@
 				"Clients"
 			],
 			"platform": "linux",
-			"logo": "https://portainer-io-assets.sfo2.digitaloceanspaces.com/logos/caddy.png",
+			"logo": "https://raw.githubusercontent.com/JeanPCordeiro/portainer/master/stacks/clientfull/fullstack.png",
 			"repository": {
 				"url": "https://github.com/JeanPCordeiro/portainer",
 				"stackfile": "stacks/clientfull/docker-stack.yml"
