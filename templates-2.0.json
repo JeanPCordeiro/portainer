@@ -17,10 +17,45 @@
 			},
 			"env": [
 				{
+				"name": "DOMAINN",
+				"label": "Domain",
+				"description": "DNS Domain"
+				},				
+				{
 				"name": "CLIENT_ID",
 				"label": "Client ID",
-				"description": "Client ID used to prefix all objects."
-				}
+				"description": "Client ID used to prefix all objects"
+				},
+				{			
+				"name": "WP_ID",
+				"label": "WordPress ID",
+				"description": "url suffix for Wordpress"
+				},
+				{			
+				"name": "PHP_ID",
+				"label": "PHP ID",
+				"description": "url suffix for PHP"
+				},
+				{							
+				"name": "FB_ID",
+				"label": "FileBrowser ID",
+				"description": "url suffix for FileBrowser"
+				},
+				{							
+				"name": "VS_ID",
+				"label": "VsCode ID",
+				"description": "url suffix for VsCode"
+				},
+				{							
+				"name": "AD_ID",
+				"label": "Adminer ID",
+				"description": "url suffix for Adminer"
+				},
+				{							
+				"name": "S3_ID",
+				"label": "S3 ID",
+				"description": "url suffix for S3"
+				}				
 			]
 		}
 	]
