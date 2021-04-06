@@ -8,10 +8,26 @@ networks:
     external: true
 
 volumes:
-    db_data: {}
-    wp_data: {}
-    php_data: {}
-    s3_data: {}
+  db_data:
+    driver: linstor
+    driver_opts:
+      fs: "xfs"
+      size: "2G"
+  wp_data:
+    driver: linstor
+    driver_opts:
+      fs: "xfs"
+      size: "2G"  
+  php_data:
+    driver: linstor
+    driver_opts:
+      fs: "xfs"
+      size: "2G"  
+  s3_data:
+    driver: linstor
+    driver_opts:
+      fs: "xfs"
+      size: "2G"  
 
 services:
 
