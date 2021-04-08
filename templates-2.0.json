@@ -62,7 +62,7 @@
 			"type": 2,
 			"title": "Boiler",
 			"description": "Supervision du niveau de fioul",
-			"note": "Deploys DB, WP, PHP, etc",
+			"note": "Deploys DB, Get, Calc, etc",
 			"categories": [
 				"Clients"
 			],
@@ -70,49 +70,64 @@
 			"logo": "https://raw.githubusercontent.com/JeanPCordeiro/portainer/master/stacks/clientfull/fullstack.png",
 			"repository": {
 				"url": "https://github.com/JeanPCordeiro/portainer",
-				"stackfile": "stacks/clientfull/docker-stack.yml"
+				"stackfile": "stacks/boiler/docker-stack.yml"
 			},
 			"env": [
 				{
-				"name": "DOMAIN",
-				"label": "Domain",
-				"description": "DNS Domain"
+				"name": "DATABASE",
+				"label": "MYSQL_DATABASE",
+				"description": "MYSQL_DATABASE"
 				},				
 				{
-				"name": "CLIENT_ID",
-				"label": "Client ID",
-				"description": "Client ID used to prefix all objects"
+				"name": "DBUSER",
+				"label": "MYSQL_USER",
+				"description": "MYSQL_USER"
 				},
 				{			
-				"name": "WP_ID",
-				"label": "WordPress ID",
-				"description": "url suffix for Wordpress"
+				"name": "DBPWD",
+				"label": "MYSQL_PASSWORD",
+				"description": "MYSQL_PASSWORD"
 				},
 				{			
-				"name": "PHP_ID",
-				"label": "PHP ID",
-				"description": "url suffix for PHP"
+				"name": "DBROOTPWD",
+				"label": "MYSQL_ROOT_PASSWORD",
+				"description": "MYSQL_ROOT_PASSWORD"
 				},
 				{							
-				"name": "FB_ID",
-				"label": "FileBrowser ID",
-				"description": "url suffix for FileBrowser"
+				"name": "TPLINK_USER",
+				"label": "TPLINK_USER",
+				"description": "TPLINK_USER"
 				},
 				{							
-				"name": "VS_ID",
-				"label": "VsCode ID",
-				"description": "url suffix for VsCode"
+				"name": "TPLINK_PASS",
+				"label": "TPLINK_PASS",
+				"description": "TPLINK_PASS"
 				},
 				{							
-				"name": "AD_ID",
-				"label": "Adminer ID",
-				"description": "url suffix for Adminer"
+				"name": "TPLINK_DEVICE",
+				"label": "TPLINK_DEVICE",
+				"description": "TPLINK_DEVICE"
 				},
 				{							
-				"name": "S3_ID",
-				"label": "S3 ID",
-				"description": "url suffix for S3"
-				}				
+				"name": "TABLE",
+				"label": "TABLE",
+				"description": "TABLE"
+				},
+				{							
+				"name": "POWER_LOW",
+				"label": "POWER_LOW",
+				"description": "POWER_LOW"
+				},
+				{							
+				"name": "POWER_HIGH",
+				"label": "POWER_HIGH",
+				"description": "POWER_HIGH"
+				},
+				{							
+				"name": "LITERS_HOUR",
+				"label": "LITERS_HOUR",
+				"description": "LITERS_HOUR"
+				}
 			]
 		}
 	]
