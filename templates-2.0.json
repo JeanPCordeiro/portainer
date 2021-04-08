@@ -57,6 +57,63 @@
 				"description": "url suffix for S3"
 				}				
 			]
+		},
+				{
+			"type": 2,
+			"title": "Boiler",
+			"description": "Supervision du niveau de fioul",
+			"note": "Deploys DB, WP, PHP, etc",
+			"categories": [
+				"Clients"
+			],
+			"platform": "linux",
+			"logo": "https://raw.githubusercontent.com/JeanPCordeiro/portainer/master/stacks/clientfull/fullstack.png",
+			"repository": {
+				"url": "https://github.com/JeanPCordeiro/portainer",
+				"stackfile": "stacks/clientfull/docker-stack.yml"
+			},
+			"env": [
+				{
+				"name": "DOMAIN",
+				"label": "Domain",
+				"description": "DNS Domain"
+				},				
+				{
+				"name": "CLIENT_ID",
+				"label": "Client ID",
+				"description": "Client ID used to prefix all objects"
+				},
+				{			
+				"name": "WP_ID",
+				"label": "WordPress ID",
+				"description": "url suffix for Wordpress"
+				},
+				{			
+				"name": "PHP_ID",
+				"label": "PHP ID",
+				"description": "url suffix for PHP"
+				},
+				{							
+				"name": "FB_ID",
+				"label": "FileBrowser ID",
+				"description": "url suffix for FileBrowser"
+				},
+				{							
+				"name": "VS_ID",
+				"label": "VsCode ID",
+				"description": "url suffix for VsCode"
+				},
+				{							
+				"name": "AD_ID",
+				"label": "Adminer ID",
+				"description": "url suffix for Adminer"
+				},
+				{							
+				"name": "S3_ID",
+				"label": "S3 ID",
+				"description": "url suffix for S3"
+				}				
+			]
 		}
 	]
 }
