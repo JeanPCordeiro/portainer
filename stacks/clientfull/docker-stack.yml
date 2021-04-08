@@ -8,10 +8,10 @@ networks:
     external: true
 
 volumes:
-    db_data: {}
-    wp_data: {}
-    php_data: {}
-    s3_data: {}
+    db_data:
+    wp_data: 
+    php_data: 
+    s3_data: 
 
 services:
 
