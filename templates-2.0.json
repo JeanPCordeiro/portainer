@@ -67,7 +67,7 @@
 				"Clients"
 			],
 			"platform": "linux",
-			"logo": "https://raw.githubusercontent.com/JeanPCordeiro/portainer/master/stacks/clientfull/fullstack.png",
+			"logo": "https://raw.githubusercontent.com/JeanPCordeiro/portainer/master/stacks/boiler/boiler.png",
 			"repository": {
 				"url": "https://github.com/JeanPCordeiro/portainer",
 				"stackfile": "stacks/boiler/docker-stack.yml"
