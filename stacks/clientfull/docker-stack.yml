@@ -8,14 +8,10 @@ networks:
     external: true
 
 volumes:
-  db_data:
-    driver: glusterfs
-  wp_data:
-    driver: glusterfs
-  php_data:
-    driver: glusterfs
-  s3_data:
-    driver: glusterfs
+    db_data: {}
+    wp_data: {}
+    php_data: {}
+    s3_data: {}
 
 services:
 
