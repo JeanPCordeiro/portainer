@@ -8,14 +8,14 @@ networks:
     external: true
 
 volumes:
-    db_data:
-      driver: gfs1
-    wp_data: 
-      driver: gfs1
-    php_data: 
-      driver: gfs1
-    s3_data: 
-      driver: gfs1
+    db_data: {}
+      # driver: gfs1
+    wp_data: {}
+      # driver: gfs1
+    php_data: {}
+      # driver: gfs1
+    s3_data: {}
+      # driver: gfs1
 
 services:
 
