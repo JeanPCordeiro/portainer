@@ -16,10 +16,10 @@ services:
         max_attempts: 10
         window: 15s
     environment:
-        MYSQL_DATABASE: ${DATABASE}
-        MYSQL_USER: ${DBUSER}
-        MYSQL_PASSWORD: ${DBPWD}
-        MYSQL_ROOT_PASSWORD: ${DBROOTPWD}
+        MYSQL_DATABASE: chaudiere
+        MYSQL_USER: chaudiere
+        MYSQL_PASSWORD: chaudiere
+        MYSQL_ROOT_PASSWORD: chaudiere
     volumes:
       - db_data:/var/lib/mysql
       
