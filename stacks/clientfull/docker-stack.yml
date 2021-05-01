@@ -30,6 +30,9 @@ services:
   db:
     image: mariadb:latest
     deploy:
+      placement:
+        constraints:
+          - node.labels.ClientsHost == ${HOST_ID}
       replicas: 1
       restart_policy:
         condition: on-failure
@@ -49,6 +52,9 @@ services:
   wp:
     image: wordpress:latest
     deploy:
+      placement:
+        constraints:
+          - node.labels.ClientsHost == ${HOST_ID}
       replicas: 1
       restart_policy:
         condition: any
@@ -84,6 +90,9 @@ services:
   php:
     image: php:apache
     deploy:
+      placement:
+        constraints:
+          - node.labels.ClientsHost == ${HOST_ID}
       replicas: 1
       restart_policy:
         condition: any
@@ -117,6 +126,9 @@ services:
   fb:
     image: filebrowser/filebrowser
     deploy:
+      placement:
+        constraints:
+          - node.labels.ClientsHost == ${HOST_ID}
       replicas: 1
       restart_policy:
         condition: any
@@ -146,6 +158,9 @@ services:
   vscode:
     image: ghcr.io/linuxserver/code-server
     deploy:
+      placement:
+        constraints:
+          - node.labels.ClientsHost == ${HOST_ID}
       replicas: 1
       restart_policy:
         condition: any
@@ -176,6 +191,9 @@ services:
   adminer:
     image: adminer:latest
     deploy:
+      placement:
+        constraints:
+          - node.labels.ClientsHost == ${HOST_ID}
       replicas: 1
       restart_policy:
         condition: any
@@ -213,6 +231,9 @@ services:
       - traefik-public
       - internal
     deploy:
+      placement:
+        constraints:
+          - node.labels.ClientsHost == ${HOST_ID}
       restart_policy:
         delay: 10s
         max_attempts: 10
