@@ -9,13 +9,21 @@ networks:
 
 volumes:
     db_data: {} 
-      #driver: gfs2
+          driver: lade/linstor
+          driver_opts:
+                  size: 1G
     wp_data: {}
-      #driver: gfs2
+          driver: lade/linstor
+          driver_opts:
+                  size: 1G
     php_data: {}
-      #driver: gfs2
+          driver: lade/linstor
+          driver_opts:
+                  size: 1G
     s3_data: {}
-      #driver: gfs2
+          driver: lade/linstor
+          driver_opts:
+                  size: 1G
 
 services:
 
