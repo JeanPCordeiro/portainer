@@ -8,19 +8,19 @@ networks:
     external: true
 
 volumes:
-    db_data: {} 
+    db_data:
           driver: lade/linstor
           driver_opts:
                   size: 1G
-    wp_data: {}
+    wp_data:
           driver: lade/linstor
           driver_opts:
                   size: 1G
-    php_data: {}
+    php_data:
           driver: lade/linstor
           driver_opts:
                   size: 1G
-    s3_data: {}
+    s3_data: 
           driver: lade/linstor
           driver_opts:
                   size: 1G
