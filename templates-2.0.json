@@ -17,11 +17,6 @@
 			},
 			"env": [
 				{
-				"name": "HOST_ID",
-				"label": "Host ID",
-				"description": "Host Placement Tag"
-				},
-				{
 				"name": "DOMAIN",
 				"label": "Domain",
 				"description": "DNS Domain"
